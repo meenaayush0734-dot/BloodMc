@@ -1,0 +1,31 @@
+name: Build Blood Steal Plugin
+
+on:
+workflow_dispatch:
+push:
+branches:
+- main
+
+jobs:
+build:
+runs-on: ubuntu-latest
+
+steps:
+  - name: Checkout Repository
+    uses: actions/checkout@v4
+
+  - name: Set Up Java
+    uses: actions/setup-java@v4
+    with:
+      distribution: temurin
+      java-version: '21'
+      cache: maven
+
+  - name: Build Plugin
+    run: mvn -B package --file pom.xml
+
+  - name: Upload Plugin JAR
+    uses: actions/upload-artifact@v4
+    with:
+      name: BloodSteal-Plugin
+      path: target/*.jar
